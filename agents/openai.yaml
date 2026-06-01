@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auto Modeling"
+  short_description: "Natural language to CadQuery 3D models."
+  default_prompt: "Use Auto Modeling to convert my natural-language mechanical design request into a parameterized CadQuery model, export STEP/STL files, and iterate on modifications."

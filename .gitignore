@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+.venv/
+output/
+*.step
+*.stp
+*.stl
+*.FCStd
+*.dmg
+FreeCAD.app/
