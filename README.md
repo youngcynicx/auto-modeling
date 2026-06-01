@@ -1,5 +1,7 @@
 # Auto Modeling
 
+![Auto Modeling workflow overview](assets/auto-modeling-overview.png)
+
 Auto Modeling is a Codex skill for turning natural-language mechanical design requests into parameterized CadQuery 3D models. It guides an agent from a plain text idea to editable CAD outputs such as STEP and STL, then supports follow-up edits like changing dimensions, adding connectors, generating cutaways, or checking assemblies.
 
 ## What It Does
