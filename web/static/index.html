@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="用自然语言创建和修改参数化 CadQuery 模型，并在浏览器中实时预览。"
+    />
+    <title>Auto Modeling Studio</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Auto Modeling Studio 首页">
+          <span class="brand-mark" aria-hidden="true">AM</span>
+          <span>
+            <strong>Auto Modeling</strong>
+            <small>PARAMETRIC CAD STUDIO</small>
+          </span>
+        </a>
+        <div class="topbar-actions">
+          <span class="service-state"><i aria-hidden="true"></i>本地服务</span>
+          <button class="button button-quiet" id="new-job-button" type="button">新建模型</button>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <aside class="conversation-panel" aria-label="建模对话">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">DESIGN BRIEF</p>
+              <h1>描述你想创建的零件</h1>
+            </div>
+            <span class="version-badge" id="version-badge">未生成</span>
+          </div>
+
+          <div class="messages" id="messages" aria-live="polite">
+            <article class="message message-assistant welcome-message">
+              <span class="message-author">建模助手</span>
+              <p>告诉我零件用途、关键尺寸、孔位或接口。我会生成参数化模型，完成后你可以继续用自然语言修改。</p>
+            </article>
+          </div>
+
+          <form class="composer" id="prompt-form">
+            <label for="prompt-input" id="prompt-label">自然语言建模需求</label>
+            <textarea
+              id="prompt-input"
+              name="prompt"
+              rows="5"
+              maxlength="12000"
+              placeholder="例如：创建一个 80 × 40 × 6 mm 的安装板，四角各有一个直径 5 mm 的通孔，边缘倒圆角 2 mm。"
+              required
+            ></textarea>
+            <div class="composer-footer">
+              <span>⌘ / Ctrl + Enter 提交</span>
+              <button class="button button-primary" id="submit-button" type="submit">
+                <span>生成模型</span><b aria-hidden="true">→</b>
+              </button>
+            </div>
+          </form>
+        </aside>
+
+        <section class="preview-panel" aria-label="模型预览">
+          <div class="preview-toolbar">
+            <div>
+              <p class="eyebrow">3D PREVIEW</p>
+              <h2 id="preview-title">模型预览</h2>
+            </div>
+            <div class="preview-actions" id="download-actions" hidden>
+              <a class="button button-quiet" id="download-step" href="#">下载 STEP</a>
+              <a class="button button-quiet" id="download-stl" href="#">下载 STL</a>
+            </div>
+          </div>
+
+          <div class="viewport" id="viewport">
+            <canvas id="model-canvas" aria-label="可旋转的三维模型预览"></canvas>
+            <div class="empty-state" id="empty-state">
+              <div class="empty-object" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <h3>等待第一个模型</h3>
+              <p>提交左侧需求后，STL 预览会出现在这里。</p>
+            </div>
+            <div class="loading-state" id="loading-state" hidden>
+              <span class="spinner" aria-hidden="true"></span>
+              <strong id="loading-title">正在分析需求</strong>
+              <p id="loading-detail">这通常需要几分钟，请保持页面打开。</p>
+            </div>
+            <div class="viewport-hint">拖动旋转 · 滚轮缩放 · 右键平移</div>
+          </div>
+
+          <footer class="model-meta">
+            <div class="status-block">
+              <span class="status-dot" id="status-dot"></span>
+              <div>
+                <small>任务状态</small>
+                <strong id="job-status">等待需求</strong>
+              </div>
+            </div>
+            <div class="metric" id="model-size" hidden>
+              <small>包围盒尺寸</small>
+              <strong>—</strong>
+            </div>
+            <div class="metric" id="solid-count" hidden>
+              <small>实体数量</small>
+              <strong>—</strong>
+            </div>
+          </footer>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" hidden></div>
+    <script type="module" src="/static/app.js"></script>
+  </body>
+</html>

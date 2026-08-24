@@ -68,6 +68,41 @@ Generate a preview model:
 python scripts/export_preview.py
 ```
 
+## Local Web Studio
+
+The repository includes a local browser interface for creating a model from a
+natural-language request, previewing the generated STL, and submitting follow-up
+changes as versioned revisions.
+
+Install the web dependencies into the existing CadQuery environment:
+
+```bash
+.venv/bin/python -m pip install -r requirements-web.txt
+```
+
+Start the local service:
+
+```bash
+.venv/bin/python scripts/run_web.py
+```
+
+Then open `http://127.0.0.1:8000`. Generated jobs are stored under
+`output/web-jobs/` and are ignored by Git. The local service invokes the Codex
+CLI with workspace-scoped write access, then reruns and validates each CadQuery
+model before making its STEP/STL files available to the page.
+
+The first version supports:
+
+- natural-language model creation
+- interactive STL preview with orbit, zoom, and pan controls
+- follow-up edits stored as independent revisions
+- STEP/STL downloads for the current valid revision
+- solid count, shape validity, volume, and bounding-box validation
+- recovery of the last valid preview when a later revision fails
+
+See [Local Web Studio](references/web_studio.md) for architecture, API, runtime
+configuration, security boundaries, and the versioned job layout.
+
 ## Design Principles
 
 - Keep models parameterized and editable.
